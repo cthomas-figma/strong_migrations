@@ -1,10 +1,11 @@
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
 gemspec
 
-gem "rake"
-gem "minitest", ">= 5"
-gem "activerecord", "~> 7.1.0"
-gem "pg"
-gem "mysql2"
-gem "trilogy"
+gem 'activerecord', '~> 7.1.0'
+gem 'byebug'
+gem 'minitest', '>= 5'
+gem 'mysql2'
+gem 'pg'
+gem 'rake'
+gem 'trilogy'
