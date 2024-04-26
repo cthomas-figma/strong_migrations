@@ -67,7 +67,7 @@ ActiveRecord::Schema.define do
     enable_extension 'pgcrypto'
   end
 
-  %i[users new_users orders devices cities_users].each do |table|
+  %i[users new_users orders devices cities_users test_table].each do |table|
     drop_table(table) if table_exists?(table)
   end
 
@@ -192,6 +192,14 @@ end
 
 StrongMigrations.add_check do |method, args|
   stop! 'Cannot add forbidden column' if method == :add_column && args[1].to_s == 'forbidden'
+end
+
+StrongMigrations.add_table_check do |method, args, _kwargs|
+  stop!('Use bigint instead to avoid overflow') if method == :integer
+
+  if method == :column && (args[1].to_sym == :integer || args[1].to_sym == :int)
+    stop!('Use bigint instead to avoid overflow')
+  end
 end
 
 Dir.glob('migrations/*.rb', base: __dir__).sort.each do |file|
